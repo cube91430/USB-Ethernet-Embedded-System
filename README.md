@@ -4,7 +4,6 @@ Embedded System for RGS Smart Everything.
 
 - 🔭 **USB-Ethernet-Embedded System** 🔭 -
 
-<h3 align="left">Connect with me:</h3>
 <p align="left">
 </p>
 
