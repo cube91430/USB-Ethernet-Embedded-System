@@ -1,0 +1,5 @@
+Total Pinout             27
+Digital-Analog Converter 3
+Analog Digital Converter 6
+Output                   6
+Signal Pin               10
