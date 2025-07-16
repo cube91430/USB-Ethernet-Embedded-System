@@ -11,11 +11,19 @@ Upcoming Update:
 
 #include <Arduino.h>
 #include <EEPROM.h>
-//#include <FreeRTOS.h>
 #include <Wire.h>
 #include <SPI.h>
+#include <DHT.h>
+#include <TaskScheduler.h>
+#include <PZEM004Tv30.h>          // - Baudrate 9600
+#include <MQUnifiedsensor.h>
+//#include "parse_data.cpp"
 
+const int MAX_VALUES = 10; // Maximum number of values to store
+String values[MAX_VALUES];  // Array to hold the parsed values
+int valueCount = 0;        // Counter for number of values received
 
+String data_array[6];  //Send Sensor and Relay Data
 
 /* --- Digital INPUT --- */
 volatile int digi_pin0 = 2;   //Clean Digital Transmission without Signal
@@ -39,14 +47,34 @@ const int out4 = 36;
 const int out5 = 39;
 
 volatile int led = 2;
-
-volatile bool sense_check;
-float pull_sense;
-
 int eeprom_val;
 
 int potenvalue;
 volatile int output_sensor0;
+
+volatile int adc_val0;
+volatile int adc_val1;
+volatile int adc_val2;  
+volatile int adc_val3;  
+volatile int adc_val4;  
+volatile int adc_val5;  
+
+volatile bool digi_val0;
+volatile bool digi_val1;
+volatile bool digi_val2;
+
+String sensor0;
+String sensor1;
+String sensor2;
+String sensor3;
+String sensor4;
+String sensor5;
+
+byte time0;
+byte time1;
+unsigned long startMillis;  //some global variables available anywhere in the program
+unsigned long currentMillis;
+const unsigned long period = 1000;  //the value is a number of milliseconds
 
 /* --- --- */
 int analog_to_digital(int num, int pin) {
@@ -72,20 +100,26 @@ void blink_send_data (int time_each) {
 
 //Trigger Output Manually
 void trigger_output (const int pin_number, int bin_locate) {
-  digitalWrite(pin_number, bitRead(EEPROM.read(9), bin_locate));  //0 = ON, 1 = OFF
+  //digitalWrite(pin_number, bitRead(EEPROM.read(9), bin_locate));  //0 = ON, 1 = OFF
 }
 
 
+//DHT_Unified dht(DHTPIN, DHTTYPE);
+
+void WritetoSend() {
+    data_array = String(adc_val0) + "#" + String(adc_val1) + "#" + String(adc_val2) + "#" String(adc_val3) + "#" + String(adc_val4) + "#" + String(adc_val5);
+    //Serial.print(data_array);
+
+}
+
 void setup() {
   Serial.begin(115200);
+  //dht.begin();
                             
   if (!EEPROM.begin(512)) {     // Allocate 512 bytes of EEPROM
     Serial.println("Failed to init EEPROM");
     return;
   }
-
-  //EEPROM.write(0, int(170));
-  //EEPROM.commit();
 
   pinMode(digi_pin0, INPUT);
   pinMode(digi_pin1, INPUT);
@@ -107,36 +141,22 @@ void setup() {
   pinMode(out4, INPUT); //Trial Potentiometer
   pinMode(led, OUTPUT); //Trial LED - Output
 
-  
 }
 
 void loop() {
-  //input_bin_check(0);
-  /*
-  sense_check = bitRead(EEPROM.read(0), 1);
-
-  if (sense_check == 1) {
-    pull_sense = analogRead(out4);
-  }
-  else if (sense_check == 0) {
-    pull_sense = !digitalRead(out4);
-  }
   
-  */
+  adc_val0 = analog_to_digital(0, adc0);  
+  adc_val1 = analog_to_digital(0, adc1);  
+  adc_val2 = analog_to_digital(0, adc2);  
+  adc_val3 = analog_to_digital(0, adc3);  
+  adc_val4 = analog_to_digital(0, adc4);  
+  adc_val5 = analog_to_digital(0, adc5);  
 
-  Serial.print(EEPROM.read(0), BIN);
-  Serial.print("  ");
+  digi_val0 = !digitalRead(digi_pin0);
+  digi_val1 = !digitalRead(digi_pin1);
+  digi_val2 = !digitalRead(digi_pin2);
 
-  volatile int adc_val0 = analog_to_digital(0, adc0);  
-  volatile int adc_val1 = analog_to_digital(0, adc1);  
-  volatile int adc_val2 = analog_to_digital(0, adc2);  
-  volatile int adc_val3 = analog_to_digital(0, adc3);  
-  volatile int adc_val4 = analog_to_digital(0, adc4);  
-  volatile int adc_val5 = analog_to_digital(0, adc5);  
-
-  volatile bool digi_val0 = !digitalRead(digi_pin0);
-  volatile bool digi_val1 = !digitalRead(digi_pin1);
-  volatile bool digi_val2 = !digitalRead(digi_pin2);
+  /*
 
   trigger_output(out0, 0);
   trigger_output(out1, 1);
@@ -144,10 +164,55 @@ void loop() {
   trigger_output(out3, 3);
   trigger_output(out5, 4);
 
-
+  */
+    
   //Serial.println(sensorValue);
+
+  Serial.println();
+
+  delay(50);
   
 }
 
+void parseStringToArray(String data, char delimiter, String* output, int maxItems) {
+  int count = 0;
+  int index = 0;
+  int lastIndex = 0;
+  
+  // Clear previous values
+  for (int i = 0; i < maxItems; i++) {
+    output[i] = "";
+  }
+  
+  // Parse the string
+  while (index >= 0 && count < maxItems) {
+    index = data.indexOf(delimiter, lastIndex);
+    if (index == -1) {
+      // Last item
+      output[count] = data.substring(lastIndex);
+      count++;
+    } else {
+      output[count] = data.substring(lastIndex, index);
+      count++;
+      lastIndex = index + 1;
+    }
+  }
+}  
 
+void ReadtoRead() {
+  if (Serial.available() > 0) {
+    String read_data = Serial.readStringUntil('\n');
+    read_data.trim();
+
+    parseStringToArray(read_data, '#', values, MAX_VALUES);
+    
+    if (MAX_VALUES > 0) sensor0 = values[0];
+    if (MAX_VALUES > 1) sensor1 = values[1];
+    if (MAX_VALUES > 2) sensor2 = values[2];
+    if (MAX_VALUES > 3) sensor3 = values[3];
+    if (MAX_VALUES > 4) sensor4 = values[4];
+    if (MAX_VALUES > 5) sensor5 = values[5];
+
+  }
+}
 
