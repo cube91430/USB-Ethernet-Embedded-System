@@ -1,0 +1,25 @@
+Pin Number(s),Type,Signal Input/Function
+0 (RX0),Digital,Serial RX
+1 (TX0),Digital,Serial TX
+2,Digital,External Interrupt (INT2)
+3,Digital,"External Interrupt (INT3), PWM"
+4,Digital,
+5,Digital,PWM
+6,Digital,PWM
+7,Digital,
+8,Digital,
+9,Digital,PWM
+10,Digital,"PWM, SS (SPI Slave Select)"
+11,Digital,"PWM, MOSI (SPI Master Out Slave In)"
+12,Digital,MISO (SPI Master In Slave Out)
+13,Digital,SCK (SPI Serial Clock)
+14 (TX3),Digital,Serial TX
+15 (RX3),Digital,Serial RX
+16 (TX2),Digital,Serial TX
+17 (RX2),Digital,Serial RX
+18 (TX1),Digital,"Serial TX, External Interrupt (INT5)"
+19 (RX1),Digital,"Serial RX, External Interrupt (INT4)"
+20,Digital,"SDA (I2C Data), External Interrupt (INT1)"
+21,Digital,"SCL (I2C Clock), External Interrupt (INT0)"
+22-53,Digital,
+A0-A15,Analog,Analog Input
