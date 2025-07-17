@@ -1,0 +1,15 @@
+Compatible Sensor Works with Board,,,,,,,,Compatible Output Works with Board
+,,,,,,,,Anything that works with 5V or 12V as an triggering INPUT
+No,Sensor,Communication,Protocol,Library,Note,,,
+1,DHT22,None,Digital,Main,,,,
+2,PZEM004Tv30,Serial,UART,Main,,,,
+3,Magnetic Sensor,None,Digitall,Main,,,,
+4,Voltage Divider,None,Analog,,,,,
+5,ACS758,None,Analog,,,,,
+6,ACS712,None,Analog,,,,,
+7,MQ-2,None,Analog,Main,,,,
+8,MQ-2,None,Digtal,Main,,,,
+9,Flame Sensor,None,Analog,Main,,,,
+10,Flame Sensor,None,Digital,Main,,,,
+11,,,,,,,,
+12,,,,,,,,
