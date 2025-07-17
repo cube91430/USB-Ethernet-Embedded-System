@@ -1,0 +1,37 @@
+Array (Byte),Data,Binary,Binary Data
+0,Device_ID,,
+1,Data_ID,,
+2,Analog Pin,0,ADC0
+,,1,ADC1
+,,2,ADC2
+,,3,ADC3
+,,4,ADC4
+,,5,ADC5
+,,6,ADC6
+,,7,ADC7
+3,Digital Pin,0,DAC0
+,,1,DAC1
+,,2,DAC2
+,,3,DAC3
+,,4,DAC4
+,,5,DAC5
+,,6,DAC6
+,,7,DAC7
+4,Signal Pin,0,DHT
+,,1,DHT
+,,2,PZEM
+,,3,
+,,4,PZEM
+,,5,
+,,6,
+,,7,
+5,Control Pin,0,RelayA
+,,1,RelayB
+,,2,RelayC
+,,3,RelayA
+,,4,RelayB
+,,5,RelayC
+,,6,RelayA
+,,7,RelayB
+6,Time - High Byte,,
+7,TIme - Low Byte,,
