@@ -1,0 +1,13 @@
+Sensor Data and Control - MCU to Edge,,,,,
+,,,,,
+No,Data,Format,Type,Address,Permission
+1,Temperature0,Digital,Holding Register,0!400002,R/W
+2,Temperautre1,Digital,Holding Register,0!400003,R/W
+3,Humidity0,Digital,Holding Register,0!400004,R/W
+4,Huimidity1,Digital,Holding Register,0!400005,R/W
+5,Flame Sensor,Digital,Holding Register,0!400006,R/W
+6,Flame Sensor,Analog,Holding Register,0!400007,R/W
+7,Gas Sensor,Digital,Holding Register,0!400008,R/W
+8,Gas Sensor,Analog,Holding Register,0!400009,R/W
+9,Output Control,Analog,Holding Register,0!400010,R/W
+10,Request Data,Digital,Coil,0!1,Write
