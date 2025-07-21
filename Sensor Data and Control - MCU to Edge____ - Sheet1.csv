@@ -11,3 +11,15 @@ No,Data,Format,Type,Address,Permission
 8,Gas Sensor,Analog,Holding Register,0!400009,R/W
 9,Output Control,Analog,Holding Register,0!400010,R/W
 10,Request Data,Digital,Coil,0!1,Write
+11,Current Sensor0,Digital,	Holding Register, 0!400011,	R/W	
+12,Current Sensor1,Digital,	Holding Register,	0!400012,	R/W	
+13,Voltage Sensor0,Analog,	Holding Register,	0!400013,	R/W	
+14,Voltage Sensor1,Analog,	Holding Register,	0!400014,	R/W	
+15,Power0,Digital,	Holding Register,	0!400015,	R/W	
+16,Power1,Digital,	Holding Register,	0!400016,	R/W	
+17,PowerFactor0, Digital,	Holding Register,	0!400017,	R/W	
+18,PowerFactor1,	Digital,	Holding Register,	0!400018,	R/W	
+19,Frequency0,	Digital,	Holding Register,	0!400019,	R/W	
+20,Frequency1,	Digital,	Holding Register,	0!400020,	R/W	
+21,Energy0,	Digital,	Holding Register, 0!400021,	R/W	
+22,Energy0,	Digital,	Holding Register,	0!400022,	R/W	
